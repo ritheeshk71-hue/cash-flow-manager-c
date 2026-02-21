@@ -1,36 +1,72 @@
-# cash-flow-manager-c
-A simple Cash Flow Manager built in C to track income, expenses, and balance using structures and arrays.
-# 💰 Cash Flow Manager (C Language)
+#include <stdio.h>
+#include <string.h>
 
-A simple console-based Cash Flow Manager built using C.
+struct Transaction {
+    char type[10];     
+    char note[30];
+    float amount;
+};
 
-## 📌 Features
-- Add Income
-- Add Expense
-- View All Transactions
-- View Current Balance
-- Menu-driven program
-- Uses Structures and Arrays
+int main() {
+    struct Transaction t[100];
+    int choice, count = 0;
+    float balance = 0;
 
-## 🛠 Technologies Used
-- C Programming
-- Structures
-- Arrays
-- Switch Case
-- Loops
+    do {
+        printf("\n--- CASH FLOW MANAGER ---\n");
+        printf("1. Add Income\n");
+        printf("2. Add Expense\n");
+        printf("3. View Transactions\n");
+        printf("4. View Balance\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
 
-## 🎯 Purpose
-This project was created to practice:
-- Structure handling
-- Basic financial calculations
-- Menu-driven program logic
+        switch (choice) {
 
-## ▶ How to Run
-1. Compile the program:
-   gcc cashflow.c -o cashflow
-2. Run:
-   ./cashflow
+            case 1:
+                strcpy(t[count].type, "Income");
+                printf("Enter income amount: ");
+                scanf("%f", &t[count].amount);
+                printf("Enter note: ");
+                scanf("%s", t[count].note);
+                balance += t[count].amount;
+                count++;
+                printf("Income added successfully!\n");
+                break;
 
----
+            case 2:
+                strcpy(t[count].type, "Expense");
+                printf("Enter expense amount: ");
+                scanf("%f", &t[count].amount);
+                printf("Enter note: ");
+                scanf("%s", t[count].note);
+                balance -= t[count].amount;
+                count++;
+                printf("Expense added successfully!\n");
+                break;
 
-👨‍💻 Developed by Ritheesh K
+            case 3:
+                printf("\n--- TRANSACTION LIST ---\n");
+                for (int i = 0; i < count; i++) {
+                    printf("%s | %s | ₹%.2f\n",
+                           t[i].type, t[i].note, t[i].amount);
+                }
+                break;
+
+            case 4:
+                printf("Current Balance: ₹%.2f\n", balance);
+                break;
+
+            case 5:
+                printf("Thank you!\n");
+                break;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
